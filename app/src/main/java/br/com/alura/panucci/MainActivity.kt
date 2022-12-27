@@ -13,6 +13,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
@@ -66,27 +68,7 @@ class MainActivity : ComponentActivity() {
                     PanucciApp(
                         bottomAppBarItemSelected = selectedItem,
                         onBottomAppBarItemSelectedChange = { item ->
-                            val (route, navigate) = when(item) {
-                                BottomAppBarItem.Drinks -> Pair(
-                                    drinksRoute,
-                                    navController::navigateToDrinks
-                                )
-                                BottomAppBarItem.HighlightsList -> Pair(
-                                    highlightsListRoute,
-                                    navController::navigateToHighlightsList
-                                )
-                                BottomAppBarItem.Menu -> Pair(
-                                    menuRoute,
-                                    navController::navigateToMenu
-                                )
-                            }
-
-                            val navOptions = navOptions {
-                                launchSingleTop = true
-                                popUpTo(route)
-                            }
-                            navigate(navOptions)
-
+                            navController.navigateSingleTopWithPopUpTo(item)
                         },
                         onFabClick = {
                             navController.navigateToCheckout()
