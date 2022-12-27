@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import br.com.alura.panucci.sampledata.sampleProducts
 import br.com.alura.panucci.ui.screens.MenuListScreen
 
-private const val menuRoute = "menu"
+internal const val menuRoute = "menu"
 
 fun NavGraphBuilder.menuScreen(navController: NavHostController) {
     composable(menuRoute) {
