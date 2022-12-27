@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import br.com.alura.panucci.navigation.*
 import br.com.alura.panucci.ui.components.BottomAppBarItem
 import br.com.alura.panucci.ui.components.PanucciBottomAppBar
+import br.com.alura.panucci.ui.components.bottomAppBarItems
 import br.com.alura.panucci.ui.screens.*
 import br.com.alura.panucci.ui.theme.PanucciTheme
 
@@ -63,11 +64,16 @@ class MainActivity : ComponentActivity() {
                     }
                     PanucciApp(
                         bottomAppBarItemSelected = selectedItem,
-                        onBottomAppBarItemSelectedChange = {
-                            val route = it.destination
-                            navController.navigate(route) {
-                                launchSingleTop = true
-                                popUpTo(route)
+                        onBottomAppBarItemSelectedChange = { item ->
+//                            val route = it.destination
+//                            navController.navigate(route) {
+//                                launchSingleTop = true
+//                                popUpTo(route)
+//                            }
+                            when(item) {
+                                BottomAppBarItem.Drinks -> navController.navigateToDrinks()
+                                BottomAppBarItem.HighlightsList -> navController.navigateToHighlightsList()
+                                BottomAppBarItem.Menu -> navController.navigateToMenu()
                             }
                         },
                         onFabClick = {
