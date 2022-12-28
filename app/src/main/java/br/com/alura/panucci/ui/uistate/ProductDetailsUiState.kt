@@ -2,6 +2,12 @@ package br.com.alura.panucci.ui.uistate
 
 import br.com.alura.panucci.model.Product
 
-data class ProductDetailsUiState(
-    val product: Product? = null
-)
+sealed class ProductDetailsUiState {
+
+    object Loading : ProductDetailsUiState()
+
+    object Failure : ProductDetailsUiState()
+
+    class Success(val product: Product) : ProductDetailsUiState()
+
+}
