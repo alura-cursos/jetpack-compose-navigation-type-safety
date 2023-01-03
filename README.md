@@ -24,7 +24,7 @@ Para implementar o App foram utilizadas as seguintes funcionalidades e tecnologi
 
 ## 📁 Acesso ao projeto
 
-Você pode [acessar o código fonte do projeto](https://github.com/alura-cursos/jetpack-compose-navigation/tree/aula-5) ou [baixá-lo](https://github.com/alura-cursos/jetpack-compose-navigation-type-safety/archive/refs/heads/aula-5.zip).
+Você pode [acessar o código fonte do projeto](https://github.com/alura-cursos/jetpack-compose-navigation-type-safety/tree/aula-5) ou [baixá-lo](https://github.com/alura-cursos/jetpack-compose-navigation-type-safety/archive/refs/heads/aula-5.zip).
 
 ## 🛠️ Abrir e rodar o projeto
 
