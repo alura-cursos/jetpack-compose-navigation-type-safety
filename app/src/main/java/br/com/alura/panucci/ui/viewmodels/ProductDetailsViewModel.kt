@@ -1,6 +1,5 @@
 package br.com.alura.panucci.ui.viewmodels
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.alura.panucci.dao.ProductDao

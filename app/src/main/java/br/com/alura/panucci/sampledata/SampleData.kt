@@ -1,12 +1,7 @@
 package br.com.alura.panucci.sampledata
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.RestaurantMenu
-import androidx.compose.material.icons.outlined.LocalBar
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import br.com.alura.panucci.model.Product
-import br.com.alura.panucci.ui.components.BottomAppBarItem
 import java.math.BigDecimal
 import kotlin.random.Random
 

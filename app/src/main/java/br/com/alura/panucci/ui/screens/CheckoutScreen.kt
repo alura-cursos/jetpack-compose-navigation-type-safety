@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.alura.panucci.model.Product
 import br.com.alura.panucci.sampledata.sampleProducts
 import br.com.alura.panucci.ui.components.CheckoutItemCard
 import br.com.alura.panucci.ui.theme.PanucciTheme
@@ -26,7 +25,7 @@ import br.com.alura.panucci.ui.uistate.CheckoutUiState
 @Composable
 fun CheckoutScreen(
     modifier: Modifier = Modifier,
-    onPopBackStack: () -> Unit = {},
+    onOrderClick: () -> Unit = {},
     uiState: CheckoutUiState = CheckoutUiState()
 ) {
     val products = uiState.products
@@ -130,7 +129,7 @@ fun CheckoutScreen(
             }
         }
         Button(
-            onClick = { onPopBackStack() },
+            onClick = { onOrderClick() },
             Modifier
                 .padding(
                     16.dp
