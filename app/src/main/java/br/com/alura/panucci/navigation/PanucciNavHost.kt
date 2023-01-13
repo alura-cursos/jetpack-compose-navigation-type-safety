@@ -31,7 +31,7 @@ fun PanucciNavHost(navController: NavHostController) {
             onPopBackStack = {
                 navController.currentBackStackEntry?.savedStateHandle?.set(
                     "order_done",
-                    "Pedido feito com sucesso"
+                    "✅ Pedido feito com sucesso"
                 )
                 navController.navigateUp()
             },
