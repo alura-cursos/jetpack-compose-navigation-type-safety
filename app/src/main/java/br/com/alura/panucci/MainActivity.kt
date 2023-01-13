@@ -37,6 +37,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
             val backStackEntryState by navController.currentBackStackEntryAsState()
+            val orderDoneMessage = backStackEntryState
+                ?.savedStateHandle
+                ?.getStateFlow<String?>(
+                    "order_done",
+                    null
+                )?.collectAsState()
+                ?.value
+            orderDoneMessage?.let {
+                Log.i("MainActivity", "onCreate: $it")
+            }
             val currentDestination = backStackEntryState?.destination
             PanucciTheme {
                 Surface(
@@ -53,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         }
                         mutableStateOf(item)
                     }
-                    val containsInBottomAppBarItems = when(currentRoute) {
+                    val containsInBottomAppBarItems = when (currentRoute) {
                         highlightsListRoute, menuRoute, drinksRoute -> true
                         else -> false
                     }
