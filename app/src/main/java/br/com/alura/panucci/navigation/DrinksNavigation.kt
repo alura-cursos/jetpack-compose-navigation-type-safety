@@ -13,7 +13,6 @@ import br.com.alura.panucci.ui.screens.DrinksListScreen
 import br.com.alura.panucci.ui.viewmodels.DrinksListViewModel
 
 internal const val drinksRoute = "drinks"
-const val uri = "alura://panucci.com.br"
 
 fun NavGraphBuilder.drinksScreen(
     onNavigateToProductDetails: (Product) -> Unit

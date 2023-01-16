@@ -8,6 +8,6 @@ sealed class ProductDetailsUiState {
 
     object Failure : ProductDetailsUiState()
 
-    class Success(val product: Product) : ProductDetailsUiState()
+    data class Success(val product: Product) : ProductDetailsUiState()
 
 }

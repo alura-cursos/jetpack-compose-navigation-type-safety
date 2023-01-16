@@ -1,15 +1,16 @@
 package br.com.alura.panucci.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import br.com.alura.panucci.dao.ProductDao
 import br.com.alura.panucci.ui.uistate.ProductDetailsUiState
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import kotlin.math.log
 import kotlin.random.Random
 
 class ProductDetailsViewModel(
@@ -21,15 +22,47 @@ class ProductDetailsViewModel(
         ProductDetailsUiState.Loading
     )
     val uiState = _uiState.asStateFlow()
+    private val discount = MutableStateFlow<BigDecimal>(BigDecimal.ZERO)
 
     init {
         viewModelScope.launch {
             savedStateHandle.getStateFlow<String?>(
                 "productId",
                 null
-            ).collect { id ->
-                id?.let(::findProductById)
+            ).filterNotNull()
+                .collect(::findProductById)
+        }
+        viewModelScope.launch {
+            discount.collect { currentDiscount ->
+                if (currentDiscount > BigDecimal.ZERO) {
+                    val currentState = _uiState.value
+                    if (currentState is ProductDetailsUiState.Success) {
+                        val product = currentState.product
+                        val price = product.price
+                        _uiState.value = currentState.copy(
+                            product = product.copy(
+                                price = price - (price * currentDiscount)
+                            )
+                        )
+                    }
+                }
             }
+        }
+        viewModelScope.launch {
+            val timemillis = Random.nextLong(3000, 4000)
+            delay(timemillis)
+            savedStateHandle.getStateFlow<String?>(
+                "promoCode",
+                null
+            ).filterNotNull()
+                .collect(::applyDiscountCode)
+        }
+    }
+
+    private fun applyDiscountCode(code: String) {
+        when (code) {
+            "PANUCCI10" -> discount.value = BigDecimal("0.1")
+            else -> discount.value = BigDecimal.ZERO
         }
     }
 
@@ -39,7 +72,12 @@ class ProductDetailsViewModel(
             val timemillis = Random.nextLong(500, 2000)
             delay(timemillis)
             val dataState = dao.findById(id)?.let { product ->
-                ProductDetailsUiState.Success(product = product)
+                ProductDetailsUiState.Success(
+                    product = product.copy(
+                        price = product.price -
+                                (product.price * discount.value)
+                    )
+                )
             } ?: ProductDetailsUiState.Failure
             _uiState.update { dataState }
         }
