@@ -1,8 +1,8 @@
 package br.com.alura.panucci.ui.viewmodels
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import br.com.alura.panucci.dao.ProductDao
 import br.com.alura.panucci.ui.uistate.ProductDetailsUiState
 import kotlinx.coroutines.delay
@@ -42,6 +42,19 @@ class ProductDetailsViewModel(
                 ProductDetailsUiState.Success(product = product)
             } ?: ProductDetailsUiState.Failure
             _uiState.update { dataState }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val savedStateHandle = createSavedStateHandle()
+                val dao = ProductDao()
+                ProductDetailsViewModel(
+                    dao = dao,
+                    savedStateHandle = savedStateHandle
+                )
+            }
         }
     }
 
