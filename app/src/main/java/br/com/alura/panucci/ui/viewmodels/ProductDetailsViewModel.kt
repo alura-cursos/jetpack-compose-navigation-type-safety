@@ -1,5 +1,6 @@
 package br.com.alura.panucci.ui.viewmodels
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.alura.panucci.dao.ProductDao
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class ProductDetailsViewModel(
-    private val dao: ProductDao = ProductDao()
+    private val dao: ProductDao = ProductDao(),
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ProductDetailsUiState>(
@@ -20,13 +22,24 @@ class ProductDetailsViewModel(
     )
     val uiState = _uiState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            savedStateHandle.getStateFlow<String?>(
+                "productId",
+                null
+            ).collect { id ->
+                id?.let(::findProductById)
+            }
+        }
+    }
+
     fun findProductById(id: String) {
         _uiState.update { ProductDetailsUiState.Loading }
         viewModelScope.launch {
             val timemillis = Random.nextLong(500, 2000)
             delay(timemillis)
             val dataState = dao.findById(id)?.let { product ->
-                    ProductDetailsUiState.Success(product = product)
+                ProductDetailsUiState.Success(product = product)
             } ?: ProductDetailsUiState.Failure
             _uiState.update { dataState }
         }
